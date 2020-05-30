@@ -1,0 +1,16 @@
+[package]
+name = "mystery_soup"
+version = "0.1.0"
+authors = []
+edition = "2018"
+
+[lib]
+name = "mystery_soup"
+path = "src/lib.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+bytemuck = "1.2.0"
+getrandom = "0.1.14"
+randomize = "3.0.1"
+rustler = "0.22.0-rc.0"
