@@ -5,13 +5,13 @@ defmodule MysterySoup.PCG32 do
 
   defstruct [:state, :inc]
 
-  use MysterySoup.PCG32.Nif
+  alias MysterySoup.PCG32.Nif
 
   @doc """
   Initializes a new PCG32 state.
   """
   def init do
-    Nif.init()
+    Nif.init_state()
   end
 
   @doc """
@@ -20,7 +20,7 @@ defmodule MysterySoup.PCG32 do
   This function is used as the basis for the rest of 
   the operations in this module.
   """
-  def gen(pcg, :raw), do: Nif.next(pcg)
+  def gen(pcg), do: Nif.next(pcg)
 
   @doc """
   Generates a number between 0 and 1.
@@ -36,7 +36,7 @@ defmodule MysterySoup.PCG32 do
   """
   def gen(pcg, {:die, sides}) do 
     {next, pcg} = gen(pcg)
-    {rem(next, max) + 1, pcg}
+    {rem(next, sides) + 1, pcg}
   end
 
   @doc """
