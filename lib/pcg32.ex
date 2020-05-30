@@ -46,4 +46,50 @@ defmodule MysterySoup.PCG32 do
     {next, pcg} = gen(pcg, {:zero_to, high - low})
     {next + low, pcg}
   end
+
+  @doc """
+  Picks `n` options from `set`.
+  """
+  def gen(pcg, {:pick_n, n, set}) when is_list(set) do
+    if Enum.empty?(set) do
+      raise(ArgumentError, message: "Argument `set` must be a non empty Enumerable.")
+
+    gen_pick_n_loop(pcg, {false, n, set})
+  end
+
+  @doc """
+  Picks `n` _unique_ options from `set`.
+  """
+  def gen(pcg, {:pick_n_unique, n, set}) when is_list(set) do
+    if Enum.empty?(set) do
+      raise(ArgumentError, message: "Argument `set` must be a non empty Enumerable.")
+
+    gen_pick_n_loop(pcg, {true, n, set})
+  end
+
+  @doc """
+  Common logic for 
+  """
+  defp gen_pick_n_loop(pcg, {remove, n, set}, out // []) do
+    # Next random
+    {next, pcg} = gen(pcg)
+    # The remainder of the random number divided by 
+    # the length produces a valid index.
+    index = rem(pcg, Enum.count(set))
+    # Add the element to the out list
+    out = [out | Enum.at(set, index)]
+
+    # If we're removing used values, remove it
+    set = case remove do
+      true  -> List.delete_at(set, index)
+      false -> set
+    end
+
+    n = n - 1
+    if n != 0 do
+      gen_pick_n_loop(pcg, {remove, n, set}, out)
+    else
+      {pcg, out}
+    end
+  end
 end
