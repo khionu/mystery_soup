@@ -23,12 +23,13 @@ defmodule MysterySoup.PCG32 do
   def gen(pcg), do: Nif.next(pcg)
 
   @doc """
-  Generates a number between 0 and 1.
+  Generates a float between 0 and 1. Consumes multiple `next/1` calls.
+
+  # Notes
+  This function will pull an indeterminate amount
   """
-  def gen(pcg, :decimal) do
-    {next, pcg} = gen(pcg)
-    {1 / next, pcg}
-  end
+  @spec decimal(MysterySoup.PCG32.t()) :: {float(), MysterySoup.PCG32.t()}
+  def decimal(pcg), do: Nif.next_float(pcg)
 
   @doc """
   Generates a value between 1 and `sides`, akin to 

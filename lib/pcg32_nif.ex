@@ -4,4 +4,6 @@ defmodule MysterySoup.PCG32.Nif do
     def init_state, do: :erlang.nif_error(:nif_not_loaded)
 
     def next(state), do: :erlang.nif_error(:nif_not_loaded)
+
+    def next_float(state), do: :erlang.nif_error(:nif_not_loaded)
 end
