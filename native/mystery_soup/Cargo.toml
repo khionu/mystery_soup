@@ -13,4 +13,4 @@ crate-type = ["cdylib"]
 bytemuck = "1.2.0"
 getrandom = "0.1.14"
 randomize = "3.0.1"
-rustler = "0.22.0-rc.0"
+rustler = "0.22.0"

@@ -25,3 +25,4 @@ mystery_soup-*.tar
 # Rust stuff
 /native/mystery_soup/target/
 /native/mystery_soup/Cargo.lock
+priv/native/libmystery_soup.so
