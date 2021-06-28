@@ -12,9 +12,8 @@ defmodule MysterySoup.PCG32 do
   @doc """
   Initializes a new PCG32 state, seeding with system random.
   """
-  def init do
-    Nif.init_state()
-  end
+  @spec init() :: MysterySoup.t()
+  def init, do: Nif.init_state()
 
   @doc """
   Generates the next random unsigned 32-bit integer from the PCG32 state.
