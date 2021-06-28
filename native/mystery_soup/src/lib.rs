@@ -43,24 +43,26 @@ fn next_float(term_state: RngState) -> (f32, RngState) {
     let low: f32 = 0.0;
     let high: f32 = 1.0;
 
-    let low_exp = (low.to_bits() >> 23) & 0xff;
-    let high_exp = (high.to_bits() >> 23) & 0xff;
+    let low_exp = (low.to_bits() as i32 >> 23) & 0xff;
+    let high_exp = (high.to_bits() as i32 >> 23) & 0xff;
 
-    let mut exp = high_exp - 1;
+    let mut exp = high_exp.wrapping_sub(1);
 
     while exp > low_exp {
-        if get_bit(&mut term_state, &mut bit_src, &mut bit_count) == 0 {
-            continue;
+        if get_bit(&mut term_state, &mut bit_src, &mut bit_count) == 1 {
+            break;
         }
+
+        exp = exp.wrapping_sub(1);
     }
 
     let (mantissa, mut term_state) = next_prv(term_state);
 
     if mantissa == 0 && get_bit(&mut term_state, &mut bit_src, &mut bit_count) == 1 {
-        exp += 1;
+        exp = exp.wrapping_add(1);
     }
 
-    let result = (exp << 23) | mantissa;
+    let result = ((exp as u32) << 23) | mantissa;
 
     (f32::from_bits(result), term_state)
 }
@@ -77,7 +79,7 @@ fn get_bit(term_state: &mut RngState, bits: &mut u32, i: &mut u32) -> u32 {
     let bit = *bits & 1;
     *bits = *bits >> 1;
 
-    *bits -= 1;
+    *i -= 1;
 
     bit
 }
