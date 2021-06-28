@@ -58,6 +58,8 @@ fn next_float(term_state: RngState) -> (f32, RngState) {
 
     let (mantissa, mut term_state) = next_prv(term_state);
 
+    let mantissa = mantissa & 0x7fffff;
+
     if mantissa == 0 && get_bit(&mut term_state, &mut bit_src, &mut bit_count) == 1 {
         exp = exp.wrapping_add(1);
     }
