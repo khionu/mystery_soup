@@ -1,0 +1,7 @@
+image: vborja/asdf-ubuntu:latest
+tasks:
+  - init: |
+      sudo apt-get -y install build-essential autoconf libncurses5-dev libssh-dev xsltproc fop ibwxgtk3.0-dev libgl1-mesa-dev libglu1-mesa-dev libpng-dev zip unzip
+      asdf plugin add erlang && asdf plugin add elixir
+      asdf install erlang 24.1.2 && asdf global erlang 24.1.2
+      asdf install elixir 1.12.3-otp-24 && asdf global elixir 1.12.3-otp-24
